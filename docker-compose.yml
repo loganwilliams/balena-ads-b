@@ -36,6 +36,7 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+      - "8100:8100"
     labels:
       io.balena.features.balena-socket: '1'
       io.balena.features.supervisor-api: '1'
@@ -248,6 +249,17 @@ services:
       - '30154'
     labels:
       io.balena.features.supervisor-api: '1'
+  ais-catcher:
+    build: ./ais-catcher
+    image: ais-catcher
+    restart: unless-stopped
+    privileged: true
+    labels:
+      io.balena.features.supervisor-api: '1'
+    expose:
+      - '8100'
+    ports:
+      - '8100:8100'
 # Optional: Uncomment to enable custom mlat server.
 #  mlat-client:
 #    depends_on:
