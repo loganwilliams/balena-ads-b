@@ -3,6 +3,7 @@
 # -------------------
 FROM debian:bookworm-slim AS build
 
+EXPOSE 8100
 ENV MT_PORT=
 
 RUN apt-get update
