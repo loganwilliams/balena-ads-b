@@ -3,6 +3,8 @@
 # -------------------
 FROM debian:bookworm-slim AS build
 
+ENV MT_PORT=
+
 RUN apt-get update
 RUN apt-get upgrade -y
 
@@ -46,4 +48,4 @@ RUN  apt-get autoremove -y
 
 COPY --from=build /usr/local/bin/AIS-catcher /usr/local/bin/AIS-catcher
 
-ENTRYPOINT ["/usr/local/bin/AIS-catcher", "-d", "00000002", "-N", "8100"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/start.sh"]

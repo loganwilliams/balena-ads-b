@@ -256,6 +256,8 @@ services:
     privileged: true
     labels:
       io.balena.features.supervisor-api: '1'
+    environment:
+      - MT_PORT=
     expose:
       - '8100'
     ports:
