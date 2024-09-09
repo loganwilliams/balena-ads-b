@@ -3,7 +3,6 @@
 # -------------------
 FROM debian:bookworm-slim AS build
 
-EXPOSE 8100
 ENV MT_PORT=
 
 RUN apt-get update
@@ -36,7 +35,7 @@ FROM debian:bookworm-slim
 RUN apt-get update
 RUN apt-get upgrade -y
 
-RUN apt-get install git make gcc g++ cmake pkg-config libusb-1.0-0-dev -y
+RUN apt-get install git make gcc g++ cmake pkg-config libusb-1.0-0-dev tini -y
 RUN apt-get install libusb-1.0 libairspy0 libhackrf0 libairspyhf1 libzmq5 libsoxr0 libpq5 libz1 libssl3 -y
 
 RUN cd /root; git clone https://gitea.osmocom.org/sdr/rtl-sdr.git
@@ -48,5 +47,10 @@ RUN apt-get remove git make gcc g++ cmake pkg-config libusb-1.0-0-dev -y
 RUN  apt-get autoremove -y
 
 COPY --from=build /usr/local/bin/AIS-catcher /usr/local/bin/AIS-catcher
+COPY start.sh /
+
+WORKDIR /tmp
+
+RUN chmod +x /start.sh
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/start.sh"]

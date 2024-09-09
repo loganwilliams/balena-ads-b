@@ -18,14 +18,14 @@ sleep 2
 
 # Begin defining all the required configuration variables.
 
-[ -z "$MT_PORT" ] && echo "Marine Traffic port is missing, will abort startup." && missing_variables=true || echo "Marine Traffic port is set: $LON"
+[ -z "$MT_PORT" ] && echo "Marine Traffic port is missing, will abort startup." && missing_variables=true || echo "Marine Traffic port is set: $MT_PORT"
 
 # End defining all the required configuration variables.
 
 echo " "
 
 # Start fr24feed and put it in the background.
-/usr/local/bin/AIS-catcher -d 00000002 -N 8100 -u 5.9.207.224 $MT_PORT &
+/usr/local/bin/AIS-catcher -d 00000002 -q -N 8100 LAT $LAT LON $LON SHARE_LOC on -u 5.9.207.224 $MT_PORT &
 
 # Wait for any services to exit.
 wait -n

@@ -36,7 +36,6 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
-      - "8100:8100"
     labels:
       io.balena.features.balena-socket: '1'
       io.balena.features.supervisor-api: '1'
@@ -258,8 +257,6 @@ services:
       io.balena.features.supervisor-api: '1'
     environment:
       - MT_PORT=
-    expose:
-      - '8100'
     ports:
       - '8100:8100'
 # Optional: Uncomment to enable custom mlat server.
