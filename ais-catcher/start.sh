@@ -18,14 +18,26 @@ sleep 2
 
 # Begin defining all the required configuration variables.
 
-[ -z "$MT_PORT" ] && echo "Marine Traffic port is missing, will abort startup." && missing_variables=true || echo "Marine Traffic port is set: $MT_PORT"
+[ -z "$MT_PORT" ] && echo "Marine Traffic port is missing, will not feed Marine Traffic." && missing_variables=true || echo "Marine Traffic port is set: $MT_PORT"
+[ -z "$VF_PORT" ] && echo "Vessel Finder port is missing, will not feed Vessel Finder." && missing_variables=true || echo "Vessel Finder port is set: $VF_PORT"
 
 # End defining all the required configuration variables.
 
 echo " "
 
 # Start fr24feed and put it in the background.
-/usr/local/bin/AIS-catcher -d 00000002 -q -N 8100 LAT $LAT LON $LON SHARE_LOC on -u 5.9.207.224 $MT_PORT -u 195.201.71.220 $VF_PORT &
+if [ -z "$MT_PORT" ] && [ -z "$VF_PORT" ]
+then
+    /usr/local/bin/AIS-catcher -d 00000002 -q -N 8100 LAT $LAT LON $LON SHARE_LOC on &
+elif [ -z "$VF_PORT" ]
+then
+    /usr/local/bin/AIS-catcher -d 00000002 -q -N 8100 LAT $LAT LON $LON SHARE_LOC on -u 5.9.207.224 $MT_PORT &
+elif [ -z "$MT_PORT" ]
+then
+    /usr/local/bin/AIS-catcher -d 00000002 -q -N 8100 LAT $LAT LON $LON SHARE_LOC on -u 195.201.71.220 $VF_PORT &
+else
+    /usr/local/bin/AIS-catcher -d 00000002 -q -N 8100 LAT $LAT LON $LON SHARE_LOC on -u 5.9.207.224 $MT_PORT -u 195.201.71.220 $VF_PORT &
+fi
 
 # Wait for any services to exit.
 wait -n
