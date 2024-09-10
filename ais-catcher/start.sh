@@ -25,7 +25,7 @@ sleep 2
 echo " "
 
 # Start fr24feed and put it in the background.
-/usr/local/bin/AIS-catcher -d 00000002 -q -N 8100 LAT $LAT LON $LON SHARE_LOC on -u 5.9.207.224 $MT_PORT &
+/usr/local/bin/AIS-catcher -d 00000002 -q -N 8100 LAT $LAT LON $LON SHARE_LOC on -u 5.9.207.224 $MT_PORT -u 195.201.71.220 $VF_PORT &
 
 # Wait for any services to exit.
 wait -n
